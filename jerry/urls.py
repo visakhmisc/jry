@@ -16,6 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from datapreprocessor import views as dp_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', dp_view.login, name = 'login'),
+    path('logout/', dp_view.logout, name = 'logout'),
+    path('dashboard/', dp_view.dashboard, name = 'dashboard'),
+    path('datas/', dp_view.datas, name = 'datas'),
+    path('explore_category/', dp_view.explore_category),
+    path('explore_number/', dp_view.explore_number),
+    path('stock_requests/', dp_view.stock_requests),
 ]

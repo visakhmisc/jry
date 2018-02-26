@@ -1,0 +1,66 @@
+{% extends "master_template.html" %}
+
+
+{% block title %}Test{% endblock %}
+
+
+
+{% block content %}
+
+
+
+
+
+
+
+<div style="min-height: 700px;">
+  
+
+
+
+
+{% for key,value in test.items %}
+<p>{{key}}</p><p>{{value}}</p><br>
+{% endfor %}
+
+</div>
+
+
+<!-- 
+{% for key,value in test.items %}
+<p>{{key}}</p><br>
+{% for key1,value1 in value.items %}
+<p>{{key1}}</p><p>{{value1}}</p><br>
+{% endfor %}
+{% endfor %} -->
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

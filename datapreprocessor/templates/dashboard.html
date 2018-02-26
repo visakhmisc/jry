@@ -1,0 +1,215 @@
+
+{% extends "master_template.html" %}
+
+
+{% block title %}Dashboard{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div style="min-height: 700px;">
+
+
+<div class="container_fluid" style="margin: 4%;margin-top: 2%;">
+	<div class="container">
+     <h4 class="thin">Dashboard</h4>
+    <p>The F&B management system consist of three key components - the branch stocks reprosenting the backend store which manages and maintains the raw materials required for the operation of different branches under a restaurent. Second one is branch stock requests made by the chefs, kitchen managers for collecting the raw materials for the restaurent kitchens. Third component is the sales components, which keeps track of the sales occuring in the restaurent front end.</p>   
+
+    <div class="row">
+        <p style="font-size: 23px; color: rgba(0,0,0,0.62);margin: 0px;margin-left: 2%;">In the past<span style="font-size: 40px;"> Week,</span></p>
+        <div class="col s4">
+            <p style="font-size: 23px; color: rgba(0,0,0,0.62);"> <span style="font-size: 40px;">14500</span><span style="font-size: 20px;">Rs</span> Total purchase</p style="font-size: 23px;">
+         </div>
+         <div class="col s4">
+            <p style="font-size: 23px; color: rgba(0,0,0,0.62);"> <span style="font-size: 40px;">11760</span><span style="font-size: 20px;">Rs</span> Total sale</p style="font-size: 23px;">
+         </div>
+         <div class="col s4">
+            <p style="font-size: 23px; color: rgba(0,0,0,0.62);"> <span style="font-size: 40px;">84</span><span style="font-size: 20px;">%</span> Total costing</p style="font-size: 23px;">
+         </div>
+    </div>
+
+    </div>
+	<div class="container">
+	<div id="container" class="card" ></div>
+	</div>
+</div>
+
+
+<div class="container_fluid" style="margin: 4%;">
+	<div class="row">
+	<div class="col s6" >
+       <h4 class="thin">Wordcloud</h4> 
+       <p>The word cloud can be used to identify the potential business strategies from the public openion about the restaurent. The datas are collected from the social media and manual uploading.</p>
+
+       <h5>5% <small>people talks about</small> accommodates</h5>
+       <h5>4% <small>people talks about</small> small</h5>
+       <h5>3% <small>people talks about</small> located</h5>
+       <h5>3% <small>people talks about</small> enjoy</h5>
+       <h5>1% <small>people talks about</small> well</h5>
+       
+       <h4><small>overall semantics</small> <span class="blue-text">Positive</span></h4>
+
+    </div>
+	<div id="wordcloud_container" class="card col s6" ></div>
+	</div>
+</div>
+
+
+
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block script %}
+
+<script src="https://code.highcharts.com/modules/sankey.js"></script>
+<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+
+<script type="text/javascript">
+Highcharts.chart('container', {
+
+    title: {
+        text: 'Transaction Summary'
+    },
+
+    series: [{
+        keys: ['from', 'to', 'weight'],
+        data: [
+            ['Arabic_stock', 'Arabic_request', 5 ],
+            ['Arabic_request', 'Arabic_sale', 3 ],
+            ['Chinese_stock', 'Chinese_request', 7 ],
+            ['Chinese_request', 'Chinese_sale', 1 ],
+            ['Indian_stock', 'Indian_request', 6 ],
+            ['Indian_request', 'Indian_sale', 5 ],
+            ['Indian_stock', 'Indian_request', 6 ],
+            ['Indian_request', 'Indian_sale', 5 ],
+            ['Tandoori_stock', 'Tandoori_request', 11 ],
+            ['Tandoori_request', 'Tandoori_sale', 7 ],
+            ['Ice cream & Juice_stock', 'Ice cream & Juice_request', 9 ],
+            ['Ice cream & Juice_request', 'Ice cream & Juice_sale', 2 ],
+            ['Hyderabadi Biriyani_stock', 'Hyderabadi Biriyani_request', 10 ],
+            ['Hyderabadi Biriyani_request', 'Hyderabadi Biriyani_sale', 10 ],
+            ['Dosa_stock', 'Dosa_request', 4 ],
+            ['Dosa_request', 'Dosa_sale', 3 ],
+            ['FISH TAWA_stock', 'FISH TAWA_request', 10 ],
+            ['FISH TAWA_request', 'FISH TAWA_sale', 4 ],
+        ],
+        type: 'sankey',
+        name: 'Sankey demo series'
+    }]
+
+});
+
+
+
+
+var text = 'The cod end is a small traditional fish and chip shop locatated near the town centre, squeezed between two of the many surf stores in Newquay. The shop accommodates inside and outside dinning space where customers can enjoy a leisurely meal in the restaurant, as well as a bite on the go. My first impressions walking into t...';
+var lines = text.split(/[,\. ]+/g),
+    data = Highcharts.reduce(lines, function (arr, word) {
+        var obj = Highcharts.find(arr, function (obj) {
+            return obj.name === word;
+        });
+        if (obj) {
+            obj.weight += 1;
+        } else {
+            obj = {
+                name: word,
+                weight: 1
+            };
+            arr.push(obj);
+        }
+        return arr;
+    }, []);
+
+Highcharts.chart('wordcloud_container', {
+    series: [{
+        type: 'wordcloud',
+        data: data,
+        name: 'Occurrences'
+    }],
+    title: {
+        text: 'Wordcloud of Restaurent reviews'
+    }
+});
+
+
+</script>
+
+
+
+
+
+
+<script>
+        	Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv', function(err, rows){
+			function unpack(rows, key) {
+			  return rows.map(function(row) { return row[key]; });
+			}
+			  
+			var z_data=[ ]
+			for(i=0;i<24;i++)
+			{
+			  z_data.push(unpack(rows,i));
+			}
+
+			var data = [{
+			           z: z_data,
+			           type: 'surface'
+			        }];
+			  
+			var layout = {
+			  title: 'Mt Bruno Elevation',
+			  autosize: false,
+			  width: 500,
+			  height: 500,
+			  margin: {
+			    l: 65,
+			    r: 50,
+			    b: 65,
+			    t: 90,
+			  }
+			};
+			Plotly.newPlot('myDiv', data, layout);
+			});
+        </script>
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
